@@ -1,0 +1,236 @@
+package gui;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import com.sun.accessibility.internal.resources.accessibility;
+import com.sun.prism.paint.Color;
+
+import Entity.Inventory;
+import Entity.Rates;
+import Entity.User;
+import client.ClientConsole;
+import common.Message;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+/**
+*This class represents Network Manager Approve Rates Controller
+*
+*
+*/ 
+public class NetworkManagerApproveRatesController implements Initializable {
+    @FXML
+    public Label status;
+	  @FXML
+	    private Button btnRate;
+    @FXML
+    private TableView<Rates> ratesTable;
+
+    @FXML
+    private TableColumn<Rates, String> clmFuelType;
+
+    @FXML
+    private TableColumn<Rates, String> clmPrice;
+
+    @FXML
+    private TableColumn<Rates, String> clmStatus;
+
+    @FXML
+    private Button btnRefresh;
+	int j;
+	int ratesLentgh;
+	  final Button addButton  = new Button("Confirm");
+	public static NetworkManagerApproveRatesController acainstance;
+    @FXML
+    private Button btnConfirm;
+	@FXML
+	private static SplitPane splitpane;
+	private FXMLLoader loader;	
+	public static Stage primaryStage;
+	private AnchorPane lowerAnchorPane;
+    ObservableList<Rates> List =FXCollections.observableArrayList(); 
+	public ClientConsole details= new ClientConsole("localhost", 5555);
+	Rates[] rates = new Rates[10];
+	/**
+	* This methode load the information into the gui
+	*
+	* @param splitpane this parameter form the type 
+	* @param user this paramater from the type user that contains id,firtstname,lastname,email,username,password,rank,clienttype,status,image
+	* @param userJob this parameter from the type string 
+	*/
+
+	public void start(SplitPane splitpane, User user,String userJob) {
+		this.splitpane=splitpane;
+		primaryStage=LoginController.primaryStage;
+		try{	
+			loader = new FXMLLoader(getClass().getResource("/gui/NetworkManagerApproveRates.fxml"));
+			lowerAnchorPane = loader.load();
+			splitpane.getItems().set(1, lowerAnchorPane);
+		} catch(Exception e) {
+			e.printStackTrace();
+	}		
+}
+	/**
+	* 
+	* This method insert the arraylist of type ratesArray to ths SQL table
+	* @param ratesArray arraylist of type ratesArray
+	*/
+
+	public void RatesAcceptor(ArrayList<Rates> ratesArray) {
+		List.addAll(ratesArray);
+		System.out.println(List);
+		/*int i;
+		System.out.println(ratesArray.size());
+		for(i=0;i<ratesArray.size();i++) {
+		rates[i] = new Rates(ratesArray.get(i).getFuelType(), ratesArray.get(i).getPrice());
+		ratesLentgh=i+1;
+		}*/
+		}
+	/**
+	* 
+	*The method open approve rate requests on clicking on button Open
+	* @param event event of button
+	*/
+
+    @FXML
+    void OpenRequests(ActionEvent event) {
+		//details.accept(new Message(17, null));
+    	ratesTable.setItems(List);
+    }
+    
+    /**
+    * this method open event when clicking on the button refrsh
+    * @param event event of button
+    */
+
+    @FXML
+    void Refresh(ActionEvent event) {
+    	List.clear();
+    	ratesTable.setItems(List);
+    }
+    /**
+    *
+    * This methode connect between the controller and the gui
+    */
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		acainstance = this;		
+		details.accept(new Message(17, null));
+		clmFuelType.setStyle( "-fx-background-color: #0E76DD; -fx-text-fill: white;");
+		clmFuelType.setCellValueFactory(new PropertyValueFactory<>("FuelType"));
+		clmPrice.setStyle( "-fx-background-color: #0E76DD; -fx-text-fill: white;");
+		clmPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
+		addConfirmButtonToTable();
+		addNotConfirmButtonToTable();
+		
+	}
+	/**
+	*
+	* This methode confirm approve rate requests by clicking on buttun confirm
+	*/
+
+    private void addConfirmButtonToTable() {
+        TableColumn<Rates, String> colBtn = new TableColumn("Confirm Rate");
+       
+        Callback<TableColumn<Rates, String>, TableCell<Rates, String>> cellFactory = new Callback<TableColumn<Rates, String>, TableCell<Rates, String>>() {
+            @Override
+            public TableCell<Rates, String> call(final TableColumn<Rates, String> param) {
+                final TableCell<Rates, String> cell = new TableCell<Rates, String>() {
+                    private final Button btn = new Button("Confirm");
+                    
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Rates data = getTableView().getItems().get(getIndex());
+                            Rates newRates =new Rates(data.getFuelType(), data.getPrice());
+                       //    System.out.println(newRates.getFuelType() +" "+newRates.getPrice());
+                           NetworkManagerApproveRatesController.acainstance.details.accept(new Message(18, newRates));
+                           NetworkManagerApproveRatesController.acainstance.details.accept(new Message(19, newRates));
+                           Alert alert = new Alert(AlertType.INFORMATION);
+           				alert.setAlertType(AlertType.INFORMATION); 
+           				alert.setContentText("Rate changed successfully!");
+           				alert.show(); 
+                        });
+                    }
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setPrefWidth(120);
+        
+        colBtn.setCellFactory(cellFactory);
+        colBtn.setStyle("-fx-background-color: #0E76DD; -fx-text-fill: white;");
+        ratesTable.getColumns().add(colBtn);
+    }
+    
+    /**
+    *
+    * This methode cancel approve rate requests by clicking on buttun not confirm
+    */
+
+
+    private void addNotConfirmButtonToTable() {
+        TableColumn<Rates, String> colBtn = new TableColumn("Confirm Rate");
+
+        Callback<TableColumn<Rates, String>, TableCell<Rates, String>> cellFactory = new Callback<TableColumn<Rates, String>, TableCell<Rates, String>>() {
+            @Override
+            public TableCell<Rates, String> call(final TableColumn<Rates, String> param) {
+                final TableCell<Rates, String> cell = new TableCell<Rates, String>() {
+                    private final Button btn = new Button("Not Confirm");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Rates data = getTableView().getItems().get(getIndex());
+                            Rates newRates =new Rates(data.getFuelType(), data.getPrice());
+                            System.out.println("aaaaaaaaaaaaaaaaaaaa");
+                            NetworkManagerApproveRatesController.acainstance.details.accept(new Message(20, newRates));
+                            Alert alert = new Alert(AlertType.INFORMATION);
+               				alert.setAlertType(AlertType.INFORMATION); 
+               				alert.setContentText("Rate not changed!!");
+               				alert.show(); 
+                           // System.out.println("selectedData: " + data);
+                        });
+                    }
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setPrefWidth(120);
+        colBtn.setCellFactory(cellFactory);
+        colBtn.setStyle("-fx-background-color: #0E76DD; -fx-text-fill: white;");
+        ratesTable.getColumns().add(colBtn);
+    }
+}

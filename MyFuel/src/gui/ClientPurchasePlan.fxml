@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="688.0" stylesheets="@css2.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PurchasePlanController">
+   <children>
+      <ComboBox fx:id="comboCar" layoutX="36.0" layoutY="130.0" onAction="#ShowDetails" prefWidth="150.0" promptText="Select Car" styleClass="root4" stylesheets="@css2.css" />
+      <Text layoutX="36.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Purshase Plan Type">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="36.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Gas Type">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="37.0" layoutY="503.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Gas Sataion3">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="38.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Gas Sataion2">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="38.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Gas Sataion1">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="37.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Services">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="177.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Purshase Plan Details">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtPurchaseplan" layoutX="177.0" layoutY="217.0" styleClass="root4" />
+      <TextField fx:id="txtGasStation" layoutX="178.0" layoutY="406.0" styleClass="root4" />
+      <TextField fx:id="txtGasStation2" layoutX="178.0" layoutY="445.0" styleClass="root4" />
+      <TextField fx:id="txtServices" layoutX="177.0" layoutY="334.0" prefHeight="29.0" prefWidth="157.0" styleClass="root4" />
+      <TextField fx:id="txtGastype" layoutX="177.0" layoutY="295.0" styleClass="root4" />
+      <TextField fx:id="txtCarnumber" layoutX="177.0" layoutY="256.0" styleClass="root4" />
+      <Text layoutX="36.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Car Number">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtGasStation3" layoutX="178.0" layoutY="483.0" styleClass="root4" />
+      <Text layoutX="36.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Client ID">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtID" layoutX="177.0" layoutY="178.0" styleClass="root4" />
+      <Text layoutX="38.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="root2" text="Rate">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtRate" layoutX="178.0" layoutY="368.0" styleClass="root4" />
+   </children>
+</AnchorPane>
